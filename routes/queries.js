@@ -2,7 +2,9 @@ import express from "express";
 import Query from "../models/Query.js";
 
 const router = express.Router();
-
+router.get("/", (req, res) => {
+  res.json({ message: "API is working!" });
+});
 router.post("/", async (req, res) => {
   try {
     const { name, email, message } = req.body;
