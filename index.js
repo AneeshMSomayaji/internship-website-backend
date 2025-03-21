@@ -1,16 +1,20 @@
 import express from "express";
+import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import queryRoutes from "./routes/queries.js";
-var cors = require('cors')
 
-app.use(cors()) 
 dotenv.config();
 const app = express();
 app.use(express.json());
-
+const corsOrigin ={
+  origin:'https://skprecasttech.vercel.app/', //or whatever port your frontend is using
+  credentials:true,            
+  optionSuccessStatus:200
+}
+app.use(cors(corsOrigin));
 // ✅ FIX: Proper CORS Configuration
-const allowedOrigins = ["https://skprecasttech.vercel.app"];
+
 
 app.use(cors({
   origin: allowedOrigins,  // Allow frontend URL
