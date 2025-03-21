@@ -8,25 +8,24 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-// ✅ FIX: Enable CORS properly
+// ✅ FIX: Proper CORS Configuration
+const allowedOrigins = ["https://skprecasttech.vercel.app"];
+
 app.use(cors({
-  origin: "*",  // Allow all origins (for now)
+  origin: allowedOrigins,  // Allow frontend URL
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
-// ✅ FIX: Manually add CORS headers for all responses
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*"); // Allow all origins
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+// ✅ FIX: Handle Preflight Requests (OPTIONS)
+app.options("*", (req, res) => {
+  res.header("Access-Control-Allow-Origin", allowedOrigins);
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  if (req.method === "OPTIONS") {
-    return res.status(200).end(); // Preflight request handling
-  }
-  next();
+  return res.status(200).end();
 });
 
-// ✅ Connect to MongoDB
+// ✅ MongoDB Connection
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
