@@ -17,7 +17,7 @@ app.use(cors(corsOrigin));
 
 
 app.use(cors({
-  origin: allowedOrigins,  // Allow frontend URL
+  origin:'https://skprecasttech.vercel.app/' ,  // Allow frontend URL
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
